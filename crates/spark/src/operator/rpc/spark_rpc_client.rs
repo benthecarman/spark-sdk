@@ -23,7 +23,7 @@ use tonic::metadata::Ascii;
 use tonic::metadata::MetadataValue;
 use tonic::service::Interceptor;
 use tonic::service::interceptor::InterceptedService;
-use tracing::{debug, instrument};
+use tracing::{debug, instrument, trace};
 
 #[derive(Clone, Default)]
 pub struct QueryNodesPaginatedRequest {
@@ -253,6 +253,23 @@ impl SparkRpcClient {
             let mut client = self.spark_service_client(interceptor);
             let req = req.clone();
             async move { Ok(client.initiate_swap_primary_transfer(req).await?) }
+        })
+        .await
+    }
+
+    #[instrument(level = "info", target = "spark::operator_rpc", skip_all, fields(operator_id = self.operator_id))]
+    pub async fn initiate_swap_counter_transfer(
+        &self,
+        req: InitiateSwapCounterTransferRequest,
+    ) -> Result<StartTransferResponse> {
+        trace!(
+            "Calling initiate_swap_counter_transfer with request: {:?}",
+            req
+        );
+        self.call_with_auth_retry(|interceptor| {
+            let mut client = self.spark_service_client(interceptor);
+            let req = req.clone();
+            async move { Ok(client.initiate_swap_counter_transfer(req).await?) }
         })
         .await
     }

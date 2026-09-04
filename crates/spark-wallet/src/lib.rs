@@ -10,6 +10,7 @@ pub use bitcoin::secp256k1::PublicKey;
 pub use config::*;
 pub use error::*;
 pub use model::*;
+pub use spark::operator::rpc::spark::PreimageRequestRole;
 pub use spark::operator::{OperatorConfig, OperatorError, OperatorPoolConfig};
 pub use spark::{
     Identifier, Network,
@@ -20,12 +21,13 @@ pub use spark::{
         CoopExitFeeQuote, CoopExitSpeedFeeQuote, CpfpChild, CpfpInput, ExitSpeed, Fee,
         FreezeIssuerTokenResponse, InvoiceDescription, LightningReceivePayment,
         LightningSendPayment, LightningSendStatus, Preimage, PreimageRequestStatus,
-        ReceiverTokenOutput, ServiceError, SingleUseDepositAddress, StaticDepositAddress,
-        TokenInputs, TokenMintInput, TokenOutputToSpend, TokenTransaction, TokenTransactionStatus,
-        TokenTransferInput, TransferId, TransferObserver, TransferObserverError, TransferStatus,
-        TransferTokenOutput, TransferType, UnilateralExitPlan, UnilateralExitSelectedLeaf, Utxo,
-        build_cpfp_child, build_unilateral_exit_chain, compute_sweep_fee, csv_timelock,
-        p2tr_key_path_input_weight, p2wpkh_input_weight, walk_unilateral_exit_chain,
+        PreimageRequestWithTransfer, ReceiverTokenOutput, ServiceError, SingleUseDepositAddress,
+        StaticDepositAddress, TokenInputs, TokenMintInput, TokenOutputToSpend, TokenTransaction,
+        TokenTransactionStatus, TokenTransferInput, TransferId, TransferObserver,
+        TransferObserverError, TransferStatus, TransferTokenOutput, TransferType,
+        UnilateralExitPlan, UnilateralExitSelectedLeaf, Utxo, build_cpfp_child,
+        build_unilateral_exit_chain, compute_sweep_fee, csv_timelock, p2tr_key_path_input_weight,
+        p2wpkh_input_weight, walk_unilateral_exit_chain,
     },
     session_store::*,
     signer::{
