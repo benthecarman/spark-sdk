@@ -10,6 +10,7 @@ pub use bitcoin::secp256k1::PublicKey;
 pub use config::*;
 pub use error::*;
 pub use model::*;
+pub use spark::operator::rpc::spark::PreimageRequestRole;
 pub use spark::operator::{OperatorConfig, OperatorError, OperatorPoolConfig};
 pub use spark::{
     Identifier, Network,
@@ -20,7 +21,7 @@ pub use spark::{
         CoopExitFeeQuote, CoopExitSpeedFeeQuote, CpfpChild, CpfpInput, ExitSpeed, Fee,
         FreezeIssuerTokenResponse, InvoiceDescription, LightningReceivePayment,
         LightningSendPayment, LightningSendStatus, MIN_RELAY_FEE_SAT_PER_VBYTE, Preimage,
-        PreimageRequestStatus, ReceiverTokenOutput, ServiceError, SingleUseDepositAddress,
+        PreimageRequestStatus, PreimageRequestWithTransfer, ReceiverTokenOutput, ServiceError, SingleUseDepositAddress,
         StaticDepositAddress, TokenInputs, TokenMintInput, TokenOutputToSpend, TokenTransaction,
         TokenTransactionStatus, TokenTransferInput, TransferId, TransferObserver,
         TransferObserverError, TransferStatus, TransferTokenOutput, TransferType,
