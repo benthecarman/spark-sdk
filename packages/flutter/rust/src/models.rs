@@ -574,6 +574,7 @@ pub struct _UrlSuccessActionData {
 #[frb(mirror(Network))]
 pub enum _Network {
     Mainnet,
+    Signet,
     Regtest,
 }
 

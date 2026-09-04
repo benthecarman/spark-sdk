@@ -384,6 +384,14 @@ impl SdkBuilder {
                     None,
                     ChainApiType::Esplora,
                 )),
+                Network::Signet => Arc::new(RestClientChainService::new(
+                    "https://blockstream.info/signet/api".to_string(),
+                    self.config.network,
+                    5,
+                    Box::new(inner_client),
+                    None,
+                    ChainApiType::Esplora,
+                )),
                 Network::Regtest => Arc::new(RestClientChainService::new(
                     "https://regtest-mempool.us-west-2.sparkinfra.net/api".to_string(),
                     self.config.network,

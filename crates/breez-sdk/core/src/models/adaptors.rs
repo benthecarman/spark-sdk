@@ -370,6 +370,7 @@ impl From<Network> for SparkNetwork {
     fn from(network: Network) -> Self {
         match network {
             Network::Mainnet => SparkNetwork::Mainnet,
+            Network::Signet => SparkNetwork::Signet,
             Network::Regtest => SparkNetwork::Regtest,
         }
     }

@@ -500,6 +500,7 @@ impl FromStr for SparkHtlcStatus {
 #[cfg_attr(feature = "uniffi", derive(uniffi::Enum))]
 pub enum Network {
     Mainnet,
+    Signet,
     Regtest,
 }
 
@@ -507,6 +508,7 @@ impl std::fmt::Display for Network {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Network::Mainnet => write!(f, "Mainnet"),
+            Network::Signet => write!(f, "Signet"),
             Network::Regtest => write!(f, "Regtest"),
         }
     }
@@ -516,6 +518,7 @@ impl From<Network> for BitcoinNetwork {
     fn from(network: Network) -> Self {
         match network {
             Network::Mainnet => BitcoinNetwork::Bitcoin,
+            Network::Signet => BitcoinNetwork::Signet,
             Network::Regtest => BitcoinNetwork::Regtest,
         }
     }
@@ -525,6 +528,7 @@ impl From<Network> for breez_sdk_common::network::BitcoinNetwork {
     fn from(network: Network) -> Self {
         match network {
             Network::Mainnet => breez_sdk_common::network::BitcoinNetwork::Bitcoin,
+            Network::Signet => breez_sdk_common::network::BitcoinNetwork::Signet,
             Network::Regtest => breez_sdk_common::network::BitcoinNetwork::Regtest,
         }
     }
@@ -534,6 +538,7 @@ impl From<Network> for bitcoin::Network {
     fn from(network: Network) -> Self {
         match network {
             Network::Mainnet => bitcoin::Network::Bitcoin,
+            Network::Signet => bitcoin::Network::Signet,
             Network::Regtest => bitcoin::Network::Regtest,
         }
     }
@@ -545,9 +550,36 @@ impl FromStr for Network {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "mainnet" => Ok(Network::Mainnet),
+            "signet" => Ok(Network::Signet),
             "regtest" => Ok(Network::Regtest),
             _ => Err("Invalid network".to_string()),
         }
+    }
+}
+
+#[cfg(test)]
+mod network_tests {
+    use super::*;
+
+    #[test]
+    fn signet_maps_to_bitcoin_networks() {
+        assert!(matches!(
+            BitcoinNetwork::from(Network::Signet),
+            BitcoinNetwork::Signet
+        ));
+        assert!(matches!(
+            breez_sdk_common::network::BitcoinNetwork::from(Network::Signet),
+            breez_sdk_common::network::BitcoinNetwork::Signet
+        ));
+        assert!(matches!(
+            bitcoin::Network::from(Network::Signet),
+            bitcoin::Network::Signet
+        ));
+        assert!(matches!(
+            Network::from_str("signet").unwrap(),
+            Network::Signet
+        ));
+        assert_eq!(Network::Signet.to_string(), "Signet");
     }
 }
 

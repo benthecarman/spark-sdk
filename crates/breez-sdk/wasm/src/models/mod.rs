@@ -606,6 +606,7 @@ pub struct LnurlWithdrawInfo {
 #[macros::extern_wasm_bindgen(breez_sdk_spark::Network)]
 pub enum Network {
     Mainnet,
+    Signet,
     Regtest,
 }
 
@@ -613,6 +614,7 @@ impl std::fmt::Display for Network {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Network::Mainnet => write!(f, "Mainnet"),
+            Network::Signet => write!(f, "Signet"),
             Network::Regtest => write!(f, "Regtest"),
         }
     }
