@@ -11,7 +11,8 @@ pub use error::TreeServiceError;
 pub use leaf_optimizer::*;
 use platform_utils::tokio::sync::watch;
 pub use select_helper::{
-    select_leaves_by_minimum_amount, select_leaves_by_target_amounts, with_reserved_leaves,
+    select_leaves_by_exact_amounts, select_leaves_by_minimum_amount,
+    select_leaves_by_target_amounts, with_reserved_leaves,
 };
 use serde::{Deserialize, Serialize};
 pub use service::SynchronousTreeService;
