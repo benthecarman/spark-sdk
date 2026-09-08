@@ -9,6 +9,7 @@ mod lightning_sender;
 mod lnurl;
 mod payments;
 mod runtime;
+mod ssp;
 mod sync;
 mod sync_coordinator;
 mod unilateral_exit;

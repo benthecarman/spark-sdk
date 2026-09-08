@@ -1427,6 +1427,55 @@ impl SparkWallet {
         Ok(claimed)
     }
 
+    /// The authenticated SSP client used by this wallet.
+    pub fn service_provider(&self) -> Arc<ServiceProvider> {
+        self.ssp_client.clone()
+    }
+
+    pub async fn get_instant_deposit_quote(
+        &self,
+        transaction_id: &str,
+        output_index: u32,
+    ) -> Result<spark::ssp::InstantDepositQuoteResponse, SparkWalletError> {
+        Ok(self
+            .ssp_client
+            .get_instant_deposit_quote(
+                transaction_id,
+                output_index,
+                &self.config.network.to_string().to_uppercase(),
+            )
+            .await?)
+    }
+
+    /// Sign with the wallet's configured signer; no key derivation belongs in the caller.
+    pub async fn claim_instant_deposit(
+        &self,
+        quote: spark::ssp::InstantDepositQuote,
+    ) -> Result<spark::ssp::InstantDepositClaimResponse, SparkWalletError> {
+        if quote.network.to_lowercase() != self.config.network.to_string().to_lowercase() {
+            return Err(SparkWalletError::Generic(
+                "instant deposit network mismatch".into(),
+            ));
+        }
+        let address = self.generate_static_deposit_address().await?;
+        let statement = quote.user_statement(&address.to_string())?;
+        let prepared = self
+            .spark_signer
+            .prepare_static_deposit_claim(spark::signer::PrepareStaticDepositClaimRequest {
+                index: 0,
+                user_statement: statement,
+            })
+            .await?;
+        Ok(self
+            .ssp_client
+            .claim_instant_deposit(
+                &quote.id,
+                &prepared.deposit_secret_key.secret_bytes(),
+                &prepared.user_signature.serialize_der(),
+            )
+            .await?)
+    }
+
     /// Queries the SSP for user requests by their associated transfer IDs
     /// and returns a map of transfer IDs to user requests
     pub async fn query_ssp_user_requests(
