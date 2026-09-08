@@ -1120,7 +1120,9 @@ mod tests {
         ssp::{RetryConfig, ServiceProvider, ServiceProviderConfig},
         tree::{
             InMemoryTreeStore, SigningKeyshare, TreeNode, TreeNodeId, TreeNodeStatus,
-            select_helper::{find_exact_multiple_match, find_exact_single_match, select_leaves_by_exact_amounts},
+            select_helper::{
+                find_exact_multiple_match, find_exact_single_match, select_leaves_by_exact_amounts,
+            },
             tests::create_test_node_with_parent,
         },
     };
