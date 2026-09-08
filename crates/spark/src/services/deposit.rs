@@ -1446,6 +1446,19 @@ impl DepositService {
     }
 }
 
+// The operator keeps this transaction unsigned until the direct-refund path
+// uses it. Check the returned template byte-for-byte instead of requiring a
+// witness that the operator protocol deliberately does not attach.
+fn validate_unsigned_transaction_template(
+    expected: &Transaction,
+    returned: &[u8],
+) -> Result<(), ServiceError> {
+    if serialize(expected) != returned {
+        return Err(ServiceError::InvalidTransaction);
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1584,19 +1597,6 @@ mod tests {
             assert_eq!(estimated, tx.vsize() as u64, "address: {address}");
         }
     }
-}
-
-// The operator keeps this transaction unsigned until the direct-refund path
-// uses it. Check the returned template byte-for-byte instead of requiring a
-// witness that the operator protocol deliberately does not attach.
-fn validate_unsigned_transaction_template(
-    expected: &Transaction,
-    returned: &[u8],
-) -> Result<(), ServiceError> {
-    if serialize(expected) != returned {
-        return Err(ServiceError::InvalidTransaction);
-    }
-    Ok(())
 }
 
 #[cfg(test)]
