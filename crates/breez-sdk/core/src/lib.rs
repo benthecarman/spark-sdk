@@ -63,7 +63,7 @@ pub use spark_wallet::{
     identity_master_key, identity_public_key,
 };
 pub use spark_wallet::{
-    InstantDepositClaimResponse, InstantDepositQuote, InstantDepositQuoteResponse,
+    InstantStaticDepositPlan, InstantStaticDepositQuote, InstantStaticDepositQuoteResult,
     RequestHistoryFilter, RequestLightningReceiveInput, RequestLightningSendInput, RequestPage,
     RequestRecord, ServiceProvider,
 };

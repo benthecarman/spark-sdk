@@ -21,10 +21,10 @@ pub use spark::{
         CoopExitFeeQuote, CoopExitSpeedFeeQuote, CpfpChild, CpfpInput, ExitSpeed, Fee,
         FreezeIssuerTokenResponse, InvoiceDescription, LeafSplitDraft, LeafSplitPlan,
         LeafSplitService, LightningReceivePayment, LightningSendPayment, LightningSendStatus,
-        MIN_RELAY_FEE_SAT_PER_VBYTE, Preimage, PreimageRequestStatus, PreimageRequestWithTransfer, ReceiverTokenOutput,
-        ServiceError, SingleUseDepositAddress, SplitLeafResult, StaticDepositAddress,
-        SubmittedLeafSplit, TokenInputs, TokenMintInput, TokenOutputToSpend, TokenTransaction,
-        TokenTransactionStatus, TokenTransferInput, TransferId, TransferObserver,
+        MIN_RELAY_FEE_SAT_PER_VBYTE, Preimage, PreimageRequestStatus, PreimageRequestWithTransfer,
+        ReceiverTokenOutput, ServiceError, SingleUseDepositAddress, SplitLeafResult,
+        StaticDepositAddress, SubmittedLeafSplit, TokenInputs, TokenMintInput, TokenOutputToSpend,
+        TokenTransaction, TokenTransactionStatus, TokenTransferInput, TransferId, TransferObserver,
         TransferObserverError, TransferStatus, TransferTokenOutput, TransferType,
         UnilateralExitPlan, UnilateralExitSelectedLeaf, Utxo, build_cpfp_child, compute_sweep_fee,
         csv_timelock, p2tr_key_path_input_weight, p2wpkh_input_weight, walk_unilateral_exit_chain,
@@ -83,7 +83,7 @@ pub use spark::tree::tests as tree_store_tests;
 pub use spark::token::tests as token_store_tests;
 
 pub use spark::ssp::{
-    InstantDepositClaimResponse, InstantDepositQuote, InstantDepositQuoteResponse,
+    InstantStaticDepositPlan, InstantStaticDepositQuote, InstantStaticDepositQuoteResult,
     RequestHistoryFilter, RequestLightningReceiveInput, RequestLightningSendInput, RequestPage,
     RequestRecord, ServiceProvider,
 };

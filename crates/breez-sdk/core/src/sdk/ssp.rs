@@ -1,7 +1,7 @@
 //! Rust SSP APIs for applications that need explicit quote and request control.
 use super::BreezSdk;
 use crate::{
-    InstantDepositClaimResponse, InstantDepositQuote, InstantDepositQuoteResponse, SdkError,
+    InstantStaticDepositPlan, InstantStaticDepositQuote, InstantStaticDepositQuoteResult, SdkError,
     ServiceProvider,
 };
 use std::sync::Arc;
@@ -33,20 +33,31 @@ impl BreezSdk {
     pub fn service_provider(&self) -> Arc<ServiceProvider> {
         self.spark_wallet.service_provider()
     }
+    /// Fetch an upstream instant quote for an explicit funding transaction.
     pub async fn get_instant_deposit_quote(
         &self,
-        transaction_id: &str,
+        transaction_hex: &str,
         output_index: u32,
-    ) -> Result<InstantDepositQuoteResponse, SdkError> {
+    ) -> Result<InstantStaticDepositQuoteResult, SdkError> {
+        let transaction = bitcoin::consensus::encode::deserialize_hex(transaction_hex)
+            .map_err(|e| SdkError::Generic(e.to_string()))?;
         Ok(self
             .spark_wallet
-            .get_instant_deposit_quote(transaction_id, output_index)
+            .fetch_instant_static_deposit_quote(transaction, Some(output_index))
             .await?)
     }
+    /// Use upstream quote validation, claim signing, and key encryption.
     pub async fn claim_instant_deposit(
         &self,
-        quote: InstantDepositQuote,
-    ) -> Result<InstantDepositClaimResponse, SdkError> {
-        Ok(self.spark_wallet.claim_instant_deposit(quote).await?)
+        transaction_hex: &str,
+        quote: InstantStaticDepositQuote,
+        plan: InstantStaticDepositPlan,
+    ) -> Result<String, SdkError> {
+        let transaction = bitcoin::consensus::encode::deserialize_hex(transaction_hex)
+            .map_err(|e| SdkError::Generic(e.to_string()))?;
+        Ok(self
+            .spark_wallet
+            .claim_instant_static_deposit(transaction, quote, plan)
+            .await?)
     }
 }
