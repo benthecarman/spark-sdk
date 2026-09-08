@@ -1085,7 +1085,7 @@ impl SparkWallet {
         )
         .await?;
 
-        self.maybe_start_optimization().await;
+        self.on_leaves_changed().await;
         Ok(WalletTransfer::from_transfer(
             transfer,
             None,
