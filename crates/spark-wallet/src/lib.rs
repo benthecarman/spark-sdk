@@ -82,3 +82,9 @@ pub use spark::tree::tests as tree_store_tests;
 
 #[cfg(feature = "test-utils")]
 pub use spark::token::tests as token_store_tests;
+
+pub use spark::ssp::{
+    InstantDepositClaimResponse, InstantDepositQuote, InstantDepositQuoteResponse,
+    RequestHistoryFilter, RequestLightningReceiveInput, RequestLightningSendInput, RequestPage,
+    RequestRecord, ServiceProvider,
+};
